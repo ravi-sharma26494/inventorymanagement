@@ -14,7 +14,7 @@ const Login = () => {
           <h2>Login</h2>
           <form>
             <input
-            type={"text"} 
+            type={"email"} 
             placeholder="Email" 
             required
             name='email'
