@@ -229,6 +229,27 @@ const forgotPassword = asyncHandler( async(req, res)=>{
     .createHash("sha256")
     .update(resetToken)
     .digest("hex");
+
+  //save token to db
+  await new Token({
+    userId: user._id,
+    token: hashedToken,
+    createdAt: Date.now(),
+    expiresAt: Date.now() + 30 * (60 * 1000)
+  }).save()
+
+  //Construct a reset Url
+  const resetUrl = `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`;
+
+  //Construct reset Email:
+  const message = `
+    <h2>Hello ${user.name}</h2>
+    <p>Click on the below link to reset your password</p>
+    <p>This link is valid only for 30 minutes<p>
+    <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
+    <p>Regards...<p>
+    <p>Invent Team<p>
+  `;
   
 });
 
