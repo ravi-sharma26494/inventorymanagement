@@ -272,7 +272,29 @@ const forgotPassword = asyncHandler( async(req, res)=>{
 
 //Reset Password controller
 const resetPassword = asyncHandler(async (req, res)=>{
-  res.send("Helllo");
+  const {password}  = req.body;
+  const {resetToken}  = req.params;
+
+  // convert the above token into the hashed verison that we have in db, to compare them
+  const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+
+  //find the token of db
+  const userToken = await Token.findOne({
+    token: hashedToken,
+    expiresAt: {$gt: Date.now()},
+  })
+
+  if(!userToken){
+    res.status(404);
+    throw new Error("Invalid or expired token");
+  }
+
+  //find the user
+  const user = await User.findOne({_id: userToken.userId})
+  user.password = password
+  await user.save()
+  res.status(200).json({message: "Password reset was successfull, please login to continue"});
+
 });
 
 module.exports = {
