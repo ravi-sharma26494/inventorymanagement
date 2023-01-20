@@ -29,7 +29,10 @@ const sendEmail = async(subject, message, send_to, sent_from, reply_to) => {
         if(err){
             console.log(err);
         }
-        console.log(info)
+        else{
+
+            console.log(info)
+        }
      });
 };
 

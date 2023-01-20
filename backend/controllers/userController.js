@@ -2,6 +2,8 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const Token = require('../models/tokenModel');
+const crypto = require('crypto');
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECERET, { expiresIn: "1d" });
@@ -211,8 +213,25 @@ const changePassword = asyncHandler( async (req, res) => {
 });
 
 const forgotPassword = asyncHandler( async(req, res)=>{
-res.send("Forgot password");
+  const {email} = req.body;
+  const user = await User.findOne({email});
+  
+  if(!user){
+    res.status(404)
+    throw new Error("User doesnot exists");
+  }
+
+  //Create reset token
+  let resetToken = crypto.randomBytes(32).toString("hex") + user._id;
+  
+  //Hash token before saving to db
+  const hashedToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+  
 });
+
 module.exports = {
   registerUser,
   loginUser,
