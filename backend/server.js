@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv').config();
 
 const userRoute = require('./routes/userRoute');
+const productRoute = require('./routes/productRoute');
 const errorHandler = require('./middleWares/errorMiddleware')
 const cookieParser = require('cookie-parser');
 const app =express();
@@ -20,7 +21,8 @@ app.use(cors({
 }));
 
 //Routes Middlewares
-app.use("/api/users", userRoute)
+app.use("/api/users", userRoute);
+app.use("/api/products", productRoute);
 
 //Routes
 app.get('/', (req,res)=>{
