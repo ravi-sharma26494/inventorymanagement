@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const Product = require('../models/productModel');
+const { fileSizeFormatter } = require('../utils/fileUpload');
 
 const createProduct = asyncHandler (async (req,res)=>{
     const {name, sku, category, quantity, price, description} = req.body;
@@ -12,6 +13,14 @@ const createProduct = asyncHandler (async (req,res)=>{
 
     //Handle Image upload
     let fileData = {};
+    if(req.file){
+        fileData = {
+            fileName: req.file.originalname,
+            filePath: req.file.path,
+            fileType: req.file.mimetype,
+            fileSize: fileSizeFormatter(req.file.size, 2),
+        }
+    }
       
     //create product
     const product = await Product.create({
@@ -21,7 +30,8 @@ const createProduct = asyncHandler (async (req,res)=>{
         category,
         quantity,
         price,
-        description
+        description,
+        image: fileData
     });
 
     res.status(201).json(product);
