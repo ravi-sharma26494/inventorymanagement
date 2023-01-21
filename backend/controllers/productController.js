@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const Product = require('../models/productModel');
+const router = require('../routes/userRoute');
 const { fileSizeFormatter } = require('../utils/fileUpload');
 const cloudinary = require('cloudinary').v2;
 
@@ -48,6 +49,13 @@ const createProduct = asyncHandler (async (req,res)=>{
 
 });
 
+//get all products
+const getProducts = asyncHandler(async (req, res)=>{
+    const products  = await Product.find({user: req.user.id}).sort("-createdAt");
+    res.status(200).json(products);
+});
+
 module.exports = {
     createProduct,
+    getProducts 
 };
