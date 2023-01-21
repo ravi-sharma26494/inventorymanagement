@@ -64,13 +64,28 @@ const getProduct = asyncHandler( async(req, res)=>{
     }
     if(product.user.toString() != req.user.id){
         res.status(401);
-        throw new Error("User not authorized");
+        throw new Error("User not authorized perfom this operation.");
     }
     res.status(200).json(product);
+});
+
+const deleteProduct = asyncHandler( async(req, res)=>{
+    const product  = await Product.findById(req.params.id);
+    if(!product){
+        res.status(404);
+        throw new Error("Product not found");
+    }
+    if(product.user.toString() != req.user.id){
+        res.status(401);
+        throw new Error("User not authorized to perform this operation on this product");
+    }
+    await product.remove();
+    res.status(200).json({message: "Product deleted successfully"});
 })
 
 module.exports = {
     createProduct,
     getProducts,
-    getProduct 
+    getProduct,
+    deleteProduct 
 };
