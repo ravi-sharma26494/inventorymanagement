@@ -81,11 +81,65 @@ const deleteProduct = asyncHandler( async(req, res)=>{
     }
     await product.remove();
     res.status(200).json({message: "Product deleted successfully"});
+});
+
+const updateProduct = asyncHandler(async(req, res)=>{
+    const {name, sku, category, quantity, price, description} = req.body;
+    const {id} = req.params;
+    const product  = await Product.findById(id);
+    if(!product){
+        res.status(404);
+        throw new Error("Product not found");
+    }
+    if(product.user.toString() != req.user.id){
+        res.status(401);
+        throw new Error("User not authorized to perform this operation on this product");
+    }
+
+    //Handle Image upload
+    let fileData = {};
+    if(req.file){
+        //saving the image in cloudinary
+        let uploadedFile;
+        try {
+            uploadedFile =  await cloudinary.uploader.upload(req.file.path, {folder: "Pinvent App", resource_type: "image"})
+        } catch (error) {
+            res.status(500);
+            throw new Error("Image could not be upload, please try again");
+        }
+        fileData = {
+            fileName: req.file.originalname,
+            // filePath: req.file.path,
+            filePath: uploadedFile.secure_url,
+            fileType: req.file.mimetype,
+            fileSize: fileSizeFormatter(req.file.size, 2),
+        }
+    }
+      
+    //update product
+    const updatedProduct = await Product.findByIdAndUpdate(
+        {_id: id},
+        {
+            name,
+            category,
+            quantity,
+            price,
+            description,
+            image:  Object.keys(fileData).length === 0 ? product.image?.image : fileData, 
+        },
+        {
+            new: true,
+            runValidators: true
+        }
+    );
+    
+    res.status(200).json(updatedProduct); 
 })
 
 module.exports = {
     createProduct,
     getProducts,
     getProduct,
-    deleteProduct 
+    deleteProduct,
+    updateProduct 
 };
