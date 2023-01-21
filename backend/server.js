@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv').config();
-
+const path = require("path");
 const userRoute = require('./routes/userRoute');
 const productRoute = require('./routes/productRoute');
 const errorHandler = require('./middleWares/errorMiddleware')
@@ -19,6 +19,7 @@ app.use(cors({
     origin: ["http://localhost:3000", "https://rinvent.vercel.app"],
     credentials:true
 }));
+app.use('/uploads', express.static(path.join(__dirname, "uploads")));
 
 //Routes Middlewares
 app.use("/api/users", userRoute);

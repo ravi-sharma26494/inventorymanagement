@@ -10,7 +10,9 @@ const createProduct = asyncHandler (async (req,res)=>{
         throw new Error("Please add all the fields");
     }
 
-    //Manage Image upload
+    //Handle Image upload
+    let fileData = {};
+      
     //create product
     const product = await Product.create({
         user: req.user.id,
