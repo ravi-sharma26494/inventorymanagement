@@ -6,6 +6,7 @@ const dotenv = require('dotenv').config();
 const path = require("path");
 const userRoute = require('./routes/userRoute');
 const productRoute = require('./routes/productRoute');
+const contactRoute = require('./routes/contactRoute');
 const errorHandler = require('./middleWares/errorMiddleware')
 const cookieParser = require('cookie-parser');
 const app =express();
@@ -24,6 +25,7 @@ app.use('/uploads', express.static(path.join(__dirname, "uploads")));
 //Routes Middlewares
 app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
+app.use("/api/contactus", contactRoute);
 
 //Routes
 app.get('/', (req,res)=>{
