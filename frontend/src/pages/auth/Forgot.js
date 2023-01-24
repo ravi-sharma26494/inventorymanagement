@@ -9,7 +9,7 @@ import { forgotPassword, validateEmail } from "../../services/authService";
 const Forgot = () => {
   const [email, setEmail] = useState('');
   const forgot = async(e)=>{
-    e.ppreventDefault();
+    e.preventDefault();
     if(!email){
       return toast.error("Please enter your email")
     }
@@ -23,7 +23,7 @@ const Forgot = () => {
     };
 
     await forgotPassword(userData);
-    setEmail('')
+    setEmail('');
 
   }
   return (
