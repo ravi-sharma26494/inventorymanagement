@@ -58,7 +58,7 @@ export const logoutUser= async ()=>{
     }
 };
 
-//forgot password
+//Forgot password
 export const forgotPassword= async (userData)=>{
     try {
         
