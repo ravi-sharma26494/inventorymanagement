@@ -4,8 +4,6 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import ProductForm from '../../components/productForm/ProductForm';
 import { createProduct, selectIsloading } from '../../redux/features/product/productSlice';
 
-
-
 const initialState = {
     name:"",
     category:"",
