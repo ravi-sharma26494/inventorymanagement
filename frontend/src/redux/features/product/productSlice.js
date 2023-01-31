@@ -153,7 +153,7 @@ const productSlice = createSlice({
             state.isLoading = false;
             state.isSuccess = true;
             state.isError = false;
-            toast.success("Product Deleted Successfully..")
+            toast.success("Product Deleted Successfully..");
             state.products = action.payload;
 
         })

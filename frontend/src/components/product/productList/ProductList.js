@@ -7,6 +7,10 @@ import Search from '../../search/Search';
 import { useDispatch, useSelector } from 'react-redux';
 import { FILTER_PRODUCTS, selectFilteredProduct } from '../../../redux/features/product/filterSlice';
 import ReactPaginate from 'react-paginate';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import { deleteProduct, getProducts } from '../../../redux/features/product/productSlice';
+
 
 const ProductList = ({ products, isLoading }) => {
 
@@ -22,6 +26,28 @@ const ProductList = ({ products, isLoading }) => {
         return text;
     };
 
+    const delProduct = async(id) => {
+        console.log(id); 
+        await dispatch(deleteProduct(id));
+        await dispatch(getProducts());
+     };
+
+    const confirmDelete =  (id) => { 
+        confirmAlert({
+            title: 'Delete Product !!',
+            message: 'Are you sure you want to delete this product ?',
+            buttons: [
+              {
+                label: 'Delete',
+                onClick: () =>  delProduct(id)
+              },
+              {
+                label: 'Cancel',
+                // onClick: () => alert('Click No')
+              }
+            ]
+          });
+     }
     
     // --- Pagination Start ---
     const [currentItems, setCurrentItems] = useState([]);
@@ -95,7 +121,7 @@ const ProductList = ({ products, isLoading }) => {
                                                     <FaEdit size={25} color={"green"}/>
                                                 </span>
                                                 <span>
-                                                    <FaTrashAlt size={25} color={"red"}/>
+                                                    <FaTrashAlt size={25} color={"red"}   onClick={() => confirmDelete(_id)} />
                                                 </span>
                                             </td>
                                         </tr>
