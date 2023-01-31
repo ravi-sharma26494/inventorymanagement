@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Loader from '../../components/loader/Loader';
 import ProductForm from '../../components/product/productForm/ProductForm';
 import { createProduct, selectIsloading } from '../../redux/features/product/productSlice';
@@ -29,7 +29,7 @@ const AddProduct = () => {
     const {name, value} = e.target;
     setProduct({ ...product, [name]: value});
   };
-
+ 
   const handleImageChange  = (e)=>{
     setProductImage(e.target.files[0]);
     setImagePreview(URL.createObjectURL(e.target.files[0]));

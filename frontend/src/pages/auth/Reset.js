@@ -32,7 +32,7 @@ const Reset = () => {
     if(!password || !password2){
       return toast.error("All fields are required")
     }
-    if(password != password2 ){
+    if(password !== password2 ){
       return toast.error("Passwords donot match!!")
     }
 
