@@ -5,7 +5,7 @@ import { BsCart4, BsCartX } from "react-icons/bs";
 import { BiCategory } from "react-icons/bi";
 import InfoBox from '../../infoBox/InfoBox';
 import { useDispatch, useSelector } from 'react-redux';
-import { CALC_STORE_VALUE, selectTotalStoreValue } from '../../../redux/features/product/productSlice';
+import { CALC_OUTOFSTOCK, CALC_STORE_VALUE, selectOutOfStock, selectTotalStoreValue } from '../../../redux/features/product/productSlice';
 
 
 
@@ -24,9 +24,11 @@ export const formatNumbers = (x) => {
 const ProductSummary = ({products}) => {
   const dispatch = useDispatch();
   const totalStoreValue= useSelector(selectTotalStoreValue);
+  const outOfStock= useSelector(selectOutOfStock);
   
   useEffect(() => {
     dispatch(CALC_STORE_VALUE(products))
+    dispatch(CALC_OUTOFSTOCK(products))
   }, [dispatch, products])
   
   return (
@@ -49,7 +51,7 @@ const ProductSummary = ({products}) => {
         <InfoBox
           icon={outOfStockIcon}
           title={"Out of Stock"}
-          count = {"0"}
+          count = {outOfStock}
           bgColor={"card3"}
         />
         <InfoBox
