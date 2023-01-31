@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SpinnerImg } from '../../loader/Loader';
 import './ProductList.scss';
 import {FaEdit, FaTrashAlt} from "react-icons/fa";
 import {AiOutlineEye} from "react-icons/ai";
 import Search from '../../search/Search';
+import { useDispatch, useSelector } from 'react-redux';
+import { FILTER_PRODUCTS, selectFilteredProduct } from '../../../redux/features/product/filterSlice';
 
 
 
 const ProductList = ({ products, isLoading }) => {
 
     const [search, setSearch] = useState("");
-
+    const filteredProducts = useSelector(selectFilteredProduct);
+    const dispatch = useDispatch();
 
     const shortenText = (text,n)=>{
         if(text.length > n){
@@ -20,6 +23,10 @@ const ProductList = ({ products, isLoading }) => {
         return text;
     };
 
+    useEffect(() => {
+     dispatch(FILTER_PRODUCTS({products, search}));
+    }, [products, search, dispatch]);
+    
   return (
     <div className='product-list'>
         <hr />
@@ -51,7 +58,7 @@ const ProductList = ({ products, isLoading }) => {
                         </thead>
                         <tbody>
                             {
-                                products.map((product, index)=>{
+                                filteredProducts.map((product, index)=>{
                                     const {_id, name, category, price, quantity, value} = product
                                     return(
                                         <tr key={_id}>
