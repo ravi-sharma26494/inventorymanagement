@@ -21,17 +21,11 @@ const Register = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setformData] = useState(initialState);
-  const {name, email, password, password2} = formData;
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-<<<<<<< HEAD
-=======
+  const { name, email, password, password2 } = formData;
 
->>>>>>> 3dd7c5d02389bef957116dc442866c5baa1842ab
-  const handleInputChange  = (e)=>{
-    
-    const {name, value} = e.target;
-    setformData({ ...formData, [name]:value})
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setformData({ ...formData, [name]: value });
   };
 
   const register = async (e) => {
@@ -67,7 +61,6 @@ const Register = () => {
       setIsLoading(false);
     }
   };
-}
 
   return (
     <div className={`container ${styles.auth}`}>
