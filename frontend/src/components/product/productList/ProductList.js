@@ -7,10 +7,10 @@ import Search from '../../search/Search';
 import { useDispatch, useSelector } from 'react-redux';
 import { FILTER_PRODUCTS, selectFilteredProduct } from '../../../redux/features/product/filterSlice';
 import ReactPaginate from 'react-paginate';
+import { deleteProduct, getProducts } from '../../../redux/features/product/productSlice';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import { deleteProduct, getProducts } from '../../../redux/features/product/productSlice';
-
+ 
 
 const ProductList = ({ products, isLoading }) => {
 
@@ -28,8 +28,8 @@ const ProductList = ({ products, isLoading }) => {
 
     const delProduct = async(id) => {
         console.log(id); 
-        await dispatch(deleteProduct(id));
-        await dispatch(getProducts());
+        await dispatch(deleteProduct(id))
+        await dispatch(getProducts())
      };
 
     const confirmDelete =  (id) => { 
@@ -39,7 +39,7 @@ const ProductList = ({ products, isLoading }) => {
             buttons: [
               {
                 label: 'Delete',
-                onClick: () =>  delProduct(id)
+                onClick: () => delProduct(id)
               },
               {
                 label: 'Cancel',
@@ -104,7 +104,7 @@ const ProductList = ({ products, isLoading }) => {
                         <tbody>
                             {
                                 currentItems.map((product, index)=>{
-                                    const {_id, name, category, price, quantity, value} = product
+                                    const {_id, name, category, price, quantity } = product
                                     return(
                                         <tr key={_id}>
                                             <td>{index + 1}</td>
@@ -121,7 +121,7 @@ const ProductList = ({ products, isLoading }) => {
                                                     <FaEdit size={25} color={"green"}/>
                                                 </span>
                                                 <span>
-                                                    <FaTrashAlt size={25} color={"red"}   onClick={() => confirmDelete(_id)} />
+                                                    <FaTrashAlt size={25} color={"red"} onClick={() => confirmDelete(_id)} />
                                                 </span>
                                             </td>
                                         </tr>
@@ -135,15 +135,15 @@ const ProductList = ({ products, isLoading }) => {
             
       <ReactPaginate
         breakLabel="..."
-        nextLabel="Next >"
+        nextLabel="Next"
         onPageChange={handlePageClick}
         pageRangeDisplayed={3}
         pageCount={pageCount}
-        previousLabel="< Prev"
+        previousLabel="Prev"
         renderOnZeroPageCount={null}
         containerClassName = "pagination"
         pageLinkClassName='page-num'
-        nextLinkClassName='page-num'
+        previousLinkClassName='page-num'
         activeLinkClassName='activePage'
       />
         </div>
@@ -151,4 +151,4 @@ const ProductList = ({ products, isLoading }) => {
   )
 }
 
-export default ProductList
+export default ProductList;

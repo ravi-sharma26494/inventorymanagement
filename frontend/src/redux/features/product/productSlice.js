@@ -32,12 +32,12 @@ export const createProduct = createAsyncThunk(
     }
 );
 
-// Delete A Product
-export const deleteProduct = createAsyncThunk(
-    "products/delete",
-    async(id, thunkAPI)=>{
+// Get All Products
+export const getProducts = createAsyncThunk(
+    "products/getAll",
+    async(_, thunkAPI)=>{
         try {
-            return await productService.deleteProduct(id);
+            return await productService.getProducts();
         } catch (error) {
 
             const message = (
@@ -48,11 +48,13 @@ export const deleteProduct = createAsyncThunk(
         }
     }
 );
-export const getProducts = createAsyncThunk(
-    "products/getAll",
-    async(_, thunkAPI)=>{
+
+// Delete A Product
+export const deleteProduct = createAsyncThunk(
+    "products/delete",
+    async(id, thunkAPI)=>{
         try {
-            return await productService.getProducts();
+            return await productService.deleteProduct(id);
         } catch (error) {
 
             const message = (
@@ -78,8 +80,8 @@ const productSlice = createSlice({
         })
 
         const totalValue = array.reduce((a,b)=>{
-            return a + b;
-        },0)
+            return a + b
+        }, 0)
         state.totalStoreValue = totalValue;
     },
     CALC_OUTOFSTOCK(state, action){
@@ -92,10 +94,10 @@ const productSlice = createSlice({
         let count = 0;
         array.forEach((number)=>{
             if(number === 0 || number === "0"){
-                count+= 1
+                count+= 1 
             }
         });
-        state.outOfStock = count
+        state.outOfStock = count;
     },
     CALC_CATEGORY(state, action){
         const products = action.payload;
@@ -154,7 +156,7 @@ const productSlice = createSlice({
             state.isSuccess = true;
             state.isError = false;
             toast.success("Product Deleted Successfully..");
-            state.products = action.payload;
+            // state.products = action.payload;
 
         })
         .addCase(deleteProduct.rejected, (state, action)=>{
@@ -162,7 +164,7 @@ const productSlice = createSlice({
             state.isError = true;
             state.message = action.payload;
             toast.error(action.payload);
-        })
+        });
   }
 });
 
