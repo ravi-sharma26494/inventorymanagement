@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API_URL = `${BACKEND_URL}/api/products`
+const API_URL = `${BACKEND_URL}/api/products/`
 
 //create New Product
 const createProduct = async (formData)=>{
@@ -17,7 +17,7 @@ const getProducts = async ()=>{
 
 //Delete A Product
 const deleteProduct = async (id)=>{
-    const response = await axios.delete(`${API_URL}/${id}`);
+    const response = await axios.delete(API_URL + id);
     return response.data;
 };
 

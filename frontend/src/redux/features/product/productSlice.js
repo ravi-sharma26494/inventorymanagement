@@ -32,12 +32,12 @@ export const createProduct = createAsyncThunk(
     }
 );
 
-// Delete A Product
-export const deleteProduct = createAsyncThunk(
-    "products/delete",
-    async(id, thunkAPI)=>{
+
+export const getProducts = createAsyncThunk(
+    "products/getAll",
+    async(_, thunkAPI)=>{
         try {
-            return await productService.deleteProduct(id);
+            return await productService.getProducts();
         } catch (error) {
 
             const message = (
@@ -48,11 +48,12 @@ export const deleteProduct = createAsyncThunk(
         }
     }
 );
-export const getProducts = createAsyncThunk(
-    "products/getAll",
-    async(_, thunkAPI)=>{
+// Delete A Product
+export const deleteProduct = createAsyncThunk(
+    "products/delete",
+    async(id, thunkAPI)=>{
         try {
-            return await productService.getProducts();
+            return await productService.deleteProduct(id);
         } catch (error) {
 
             const message = (
