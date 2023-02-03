@@ -69,101 +69,97 @@ const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    CALC_STORE_VALUE(state, action){
+    CALC_STORE_VALUE(state, action) {
         const products = action.payload;
         const array = [];
-        products.map((item)=>{
-            const {price, quantity} = item;
-            const productValue = price * quantity;
-            return array.push(productValue);
-        })
-
-        const totalValue = array.reduce((a,b)=>{
-            return a + b;
-        },0)
+        products.map((item) => {
+          const { price, quantity } = item;
+          const productValue = price * quantity;
+          return array.push(productValue);
+        });
+        const totalValue = array.reduce((a, b) => {
+          return a + b;
+        }, 0);
         state.totalStoreValue = totalValue;
-    },
-    CALC_OUTOFSTOCK(state, action){
+      },
+      CALC_OUTOFSTOCK(state, action) {
         const products = action.payload;
         const array = [];
-        products.map((item)=>{
-            const { quantity } = item;
-            return array.push(quantity);
+        products.map((item) => {
+          const { quantity } = item;
+  
+          return array.push(quantity);
         });
         let count = 0;
-        array.forEach((number)=>{
-            if(number === 0 || number === "0"){
-                count+= 1
-            }
+        array.forEach((number) => {
+          if (number === 0 || number === "0") {
+            count += 1;
+          }
         });
-        state.outOfStock = count
-    },
-    CALC_CATEGORY(state, action){
+        state.outOfStock = count;
+      },
+      CALC_CATEGORY(state, action) {
         const products = action.payload;
         const array = [];
-        products.map((item)=>{
-            const { category } = item;
-            return array.push(category);
+        products.map((item) => {
+          const { category } = item;
+  
+          return array.push(category);
         });
-
         const uniqueCategory = [...new Set(array)];
         state.category = uniqueCategory;
-        
-    }
+      },
   },
   extraReducers: (builder)=>{
     builder
-        .addCase(createProduct.pending, (state)=>{
-            state.isLoading = true;
-        })
-        .addCase(createProduct.fulfilled, (state, action)=>{
-            state.isLoading = false;
-            state.isSuccess = true;
-            state.isError = false;
-            console.log(action.payload);
-            state.products.push(action.payload);
-            toast.success("Product added successfully");
-        })
-        .addCase(createProduct.rejected, (state, action)=>{
-            state.isLoading = false;
-            state.isError = true;
-            state.message = action.payload;
-            toast.error(action.payload);
-        })
-        .addCase(getProducts.pending, (state)=>{
-            state.isLoading = true;
-        })
-        .addCase(getProducts.fulfilled, (state, action)=>{
-            state.isLoading = false;
-            state.isSuccess = true;
-            state.isError = false;
-            console.log(action.payload);
-            state.products = action.payload;
-
-        })
-        .addCase(getProducts.rejected, (state, action)=>{
-            state.isLoading = false;
-            state.isError = true;
-            state.message = action.payload;
-            toast.error(action.payload);
-        })
-        .addCase(deleteProduct.pending, (state)=>{
-            state.isLoading = true;
-        })
-        .addCase(deleteProduct.fulfilled, (state, action)=>{
-            state.isLoading = false;
-            state.isSuccess = true;
-            state.isError = false;
-            toast.success("Product Deleted Successfully..");
-            state.products = action.payload;
-
-        })
-        .addCase(deleteProduct.rejected, (state, action)=>{
-            state.isLoading = false;
-            state.isError = true;
-            state.message = action.payload;
-            toast.error(action.payload);
-        })
+    .addCase(createProduct.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createProduct.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        console.log(action.payload);
+        state.products.push(action.payload);
+        toast.success("Product added successfully");
+      })
+      .addCase(createProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        toast.error(action.payload);
+      })
+      .addCase(getProducts.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getProducts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        console.log(action.payload);
+        state.products = action.payload;
+      })
+      .addCase(getProducts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        toast.error(action.payload);
+      })
+      .addCase(deleteProduct.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        toast.success("Product deleted successfully");
+      })
+      .addCase(deleteProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        toast.error(action.payload);
+      });
   }
 });
 
