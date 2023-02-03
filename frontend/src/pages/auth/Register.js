@@ -2,8 +2,11 @@ import React, { useState } from 'react'
 import styles from "./auth.module.scss";
 import { TiUserAddOutline } from "react-icons/ti";
 import Card from "../../components/card/Card"
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { registerUser, validateEmail } from '../../services/authService';
+import { useDispatch } from 'react-redux';
+import { SET_LOGIN, SET_NAME } from '../../redux/features/auth/authSlice';
 
 
 const initialState = {
@@ -17,12 +20,15 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setformData] = useState(initialState);
   const {name, email, password, password2} = formData;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleInputChange  = (e)=>{
+    
     const {name, value} = e.target;
     setformData({ ...formData, [name]:value})
   };
-  const register  = (e)=>{
+  const register  = async(e) => {
     e.preventDefault();
 
     if(!name || !email|| !password ){
@@ -31,9 +37,28 @@ const Register = () => {
     if(password.length < 6){
       return toast.error("Password must be upto 6 characters")
     }
-    if(password != password2 ){
+    if(password !== password2 ){
       return toast.error("Passwords donot match!!")
     }
+    if(!validateEmail(email)){
+      return toast.error("Please enter a valid email address");
+    }
+
+    const userData = {
+      name,email,password
+    }
+    setIsLoading(true);
+    try {
+      const data  = await registerUser(userData);
+      await dispatch(SET_LOGIN(true));
+      await dispatch(SET_NAME(data.name));
+      navigate('/dashboard');
+      setIsLoading(false);
+      
+    } catch (error) {
+      setIsLoading(false);
+    }
+
   };
 
   return (
@@ -63,7 +88,7 @@ const Register = () => {
             />
             <input
             type={"password"} 
-            placeholder="Confirm Password" 
+            placeholder="Password" 
             required
             name='password'
             value={password}
@@ -71,7 +96,7 @@ const Register = () => {
             />
             <input
             type={"password"} 
-            placeholder="Password" 
+            placeholder="Confirm Password" 
             required
             name='password2'
             value={password2}
