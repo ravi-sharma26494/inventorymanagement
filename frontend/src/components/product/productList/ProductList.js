@@ -53,7 +53,7 @@ const ProductList = ({ products, isLoading }) => {
     const [currentItems, setCurrentItems] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const [itemOffset, setItemOffset] = useState(0);
-    const itemsPerPage = 5;
+    const itemsPerPage = 5; 
     
     useEffect(() => {
         const endOffset = itemOffset + itemsPerPage;
@@ -104,7 +104,7 @@ const ProductList = ({ products, isLoading }) => {
                         <tbody>
                             {
                                 currentItems.map((product, index)=>{
-                                    const {_id, name, category, price, quantity, value} = product
+                                    const {_id, name, category, price, quantity } = product
                                     return(
                                         <tr key={_id}>
                                             <td>{index + 1}</td>
@@ -121,7 +121,7 @@ const ProductList = ({ products, isLoading }) => {
                                                     <FaEdit size={25} color={"green"}/>
                                                 </span>
                                                 <span>
-                                                    <FaTrashAlt size={25} color={"red"}   onClick={() => confirmDelete(_id)} />
+                                                    <FaTrashAlt size={25} color={"red"} onClick={() => confirmDelete(_id)} />
                                                 </span>
                                             </td>
                                         </tr>
@@ -135,15 +135,15 @@ const ProductList = ({ products, isLoading }) => {
             
       <ReactPaginate
         breakLabel="..."
-        nextLabel="Next >"
+        nextLabel="Next"
         onPageChange={handlePageClick}
         pageRangeDisplayed={3}
         pageCount={pageCount}
-        previousLabel="< Prev"
+        previousLabel="Prev"
         renderOnZeroPageCount={null}
         containerClassName = "pagination"
         pageLinkClassName='page-num'
-        nextLinkClassName='page-num'
+        previousLinkClassName='page-num'
         activeLinkClassName='activePage'
       />
         </div>
@@ -151,4 +151,4 @@ const ProductList = ({ products, isLoading }) => {
   )
 }
 
-export default ProductList
+export default ProductList;
