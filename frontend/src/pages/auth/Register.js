@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./auth.module.scss";
 import { TiUserAddOutline } from "react-icons/ti";
+<<<<<<< HEAD
 import Card from "../../components/card/Card";
 import { toast } from "react-toastify";
 import { registerUser, validateEmail } from "../../services/authService";
@@ -8,6 +9,15 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { SET_LOGIN, SET_NAME } from "../../redux/features/auth/authSlice";
 import Loader from "../../components/loader/Loader";
+=======
+import Card from "../../components/card/Card"
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { registerUser, validateEmail } from '../../services/authService';
+import { useDispatch } from 'react-redux';
+import { SET_LOGIN, SET_NAME } from '../../redux/features/auth/authSlice';
+
+>>>>>>> 3dd7c5d02389bef957116dc442866c5baa1842ab
 
 const initialState = {
   name:'',
@@ -22,12 +32,20 @@ const Register = () => {
   const {name, email, password, password2} = formData;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3dd7c5d02389bef957116dc442866c5baa1842ab
   const handleInputChange  = (e)=>{
     
     const {name, value} = e.target;
     setformData({ ...formData, [name]:value})
   };
+<<<<<<< HEAD
   const register  = async (e)=>{
+=======
+  const register  = async(e) => {
+>>>>>>> 3dd7c5d02389bef957116dc442866c5baa1842ab
     e.preventDefault();
 
     if(!name || !email|| !password ){
@@ -36,6 +54,7 @@ const Register = () => {
     if(password.length < 6){
       return toast.error("Password must be upto 6 characters")
     }
+<<<<<<< HEAD
     if(!validateEmail(email)){
       return toast.error("Please add a valid email address.")
     }
@@ -58,6 +77,30 @@ const Register = () => {
     } catch (error) {
       setIsLoading(false);
     
+=======
+    if(password !== password2 ){
+      return toast.error("Passwords donot match!!")
+    }
+    if(!validateEmail(email)){
+      return toast.error("Please enter a valid email address");
+    }
+
+    const userData = {
+      name,email,password
+    }
+    setIsLoading(true);
+    try {
+      const data  = await registerUser(userData);
+      await dispatch(SET_LOGIN(true));
+      await dispatch(SET_NAME(data.name));
+      navigate('/dashboard');
+      setIsLoading(false);
+      
+    } catch (error) {
+      setIsLoading(false);
+    }
+
+>>>>>>> 3dd7c5d02389bef957116dc442866c5baa1842ab
   };
 }
 
@@ -88,7 +131,7 @@ const Register = () => {
             />
             <input
             type={"password"} 
-            placeholder="Confirm Password" 
+            placeholder="Password" 
             required
             name='password'
             value={password}
@@ -96,7 +139,7 @@ const Register = () => {
             />
             <input
             type={"password"} 
-            placeholder="Password" 
+            placeholder="Confirm Password" 
             required
             name='password2'
             value={password2}
