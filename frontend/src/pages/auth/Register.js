@@ -10,18 +10,24 @@ import { SET_LOGIN, SET_NAME } from "../../redux/features/auth/authSlice";
 import Loader from "../../components/loader/Loader";
 
 const initialState = {
-  name:'',
-  email:'',
-  password:'',
-  password2:'',
-}
+  name: "",
+  email: "",
+  password: "",
+  password2: "",
+};
 
 const Register = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setformData] = useState(initialState);
   const {name, email, password, password2} = formData;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3dd7c5d02389bef957116dc442866c5baa1842ab
   const handleInputChange  = (e)=>{
     
     const {name, value} = e.target;
@@ -61,58 +67,65 @@ const Register = () => {
       setIsLoading(false);
     }
   };
+}
+
   return (
     <div className={`container ${styles.auth}`}>
+      {isLoading && <Loader />}
       <Card>
         <div className={styles.form}>
-          <div className='--flex-center'>
-            <TiUserAddOutline size={35} color="#999"/>
+          <div className="--flex-center">
+            <TiUserAddOutline size={35} color="#999" />
           </div>
           <h2>Register</h2>
+
           <form onSubmit={register}>
-          <input
-            type={"text"} 
-            placeholder="Name" 
-            required
-            name='name'
-            value={name}
-            onChange={handleInputChange}
+            <input
+              type="text"
+              placeholder="Name"
+              required
+              name="name"
+              value={name}
+              onChange={handleInputChange}
             />
             <input
-            type={"email"} 
-            placeholder="Email" 
-            required
-            name='email'
-            value={email}
-            onChange={handleInputChange}
+              type="email"
+              placeholder="Email"
+              required
+              name="email"
+              value={email}
+              onChange={handleInputChange}
             />
             <input
-            type={"password"} 
-            placeholder="Password" 
-            required
-            name='password'
-            value={password}
-            onChange={handleInputChange}
+              type="password"
+              placeholder="Password"
+              required
+              name="password"
+              value={password}
+              onChange={handleInputChange}
             />
             <input
-            type={"password"} 
-            placeholder="Confirm Password" 
-            required
-            name='password2'
-            value={password2}
-            onChange={handleInputChange}
+              type="password"
+              placeholder="Confirm Password"
+              required
+              name="password2"
+              value={password2}
+              onChange={handleInputChange}
             />
-            <button type='submit' className="--btn --btn-primary --btn-block">Register</button>
+            <button type="submit" className="--btn --btn-primary --btn-block">
+              Register
+            </button>
           </form>
+
           <span className={styles.register}>
-            <Link to={"/"}>Home</Link>
-            <p>&nbsp; Already have an account ? &nbsp;</p>
-            <Link to={"/login"}>Login</Link>
+            <Link to="/">Home</Link>
+            <p> &nbsp; Already have an account? &nbsp;</p>
+            <Link to="/login">Login</Link>
           </span>
         </div>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;
