@@ -7,10 +7,10 @@ import Search from '../../search/Search';
 import { useDispatch, useSelector } from 'react-redux';
 import { FILTER_PRODUCTS, selectFilteredProduct } from '../../../redux/features/product/filterSlice';
 import ReactPaginate from 'react-paginate';
-import { deleteProduct, getProducts } from '../../../redux/features/product/productSlice';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
- 
+import { deleteProduct, getProducts } from '../../../redux/features/product/productSlice';
+
 
 const ProductList = ({ products, isLoading }) => {
 
@@ -28,8 +28,8 @@ const ProductList = ({ products, isLoading }) => {
 
     const delProduct = async(id) => {
         console.log(id); 
-        await dispatch(deleteProduct(id))
-        await dispatch(getProducts())
+        await dispatch(deleteProduct(id));
+        await dispatch(getProducts());
      };
 
     const confirmDelete =  (id) => { 
@@ -39,7 +39,7 @@ const ProductList = ({ products, isLoading }) => {
             buttons: [
               {
                 label: 'Delete',
-                onClick: () => delProduct(id)
+                onClick: () =>  delProduct(id)
               },
               {
                 label: 'Cancel',
