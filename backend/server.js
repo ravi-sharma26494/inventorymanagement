@@ -17,7 +17,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({extended:false}))
 app.use(bodyParser.json());
 app.use(cors({
-    origin: ["http://localhost:3000", "https://rinvent.vercel.app"],
+    origin: ["http://localhost:3000", "https://reinvent-app.vercel.app"],
     credentials:true
 }));
 app.use('/uploads', express.static(path.join(__dirname, "uploads")));
@@ -39,7 +39,15 @@ app.use(errorHandler);
 
 //Connection to database and start server
 const PORT = process.env.PORT || 5000;
-mongoose.connect(process.env.MONGO_URI)
-        .then(console.log("DB Connection Suscessfull"))
-        .catch((err)=> console.log(err))
-app.listen(PORT, ()=> console.log(`Server is running at: ${PORT}`))
+// mongoose.connect(process.env.MONGO_URI)
+//         .then(console.log("DB Connection Suscessfull"))
+//         .catch((err)=> console.log(err))
+// app.listen(PORT, ()=> console.log(`Server is running at: ${PORT}`))
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server Running on port ${PORT}`);
+    });
+  })
+  .catch((err) => console.log(err));
