@@ -53,7 +53,7 @@ const ProductList = ({ products, isLoading }) => {
     const [currentItems, setCurrentItems] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const [itemOffset, setItemOffset] = useState(0);
-    const itemsPerPage = 1;
+    const itemsPerPage = 3;
     
     useEffect(() => {
         const endOffset = itemOffset + itemsPerPage;
@@ -141,10 +141,11 @@ const ProductList = ({ products, isLoading }) => {
         pageCount={pageCount}
         previousLabel="Prev"
         renderOnZeroPageCount={null}
-        containerClassName = "pagination"
-        pageLinkClassName='page-num'
-        previousLinkClassName='page-num'
-        activeLinkClassName='activePage'
+        containerClassName="pagination"
+          pageLinkClassName="page-num"
+          previousLinkClassName="page-num"
+          nextLinkClassName="page-num"
+          activeLinkClassName="activePage"
       />
         </div>
     </div>

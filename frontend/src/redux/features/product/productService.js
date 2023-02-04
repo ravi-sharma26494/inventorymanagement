@@ -21,10 +21,16 @@ const deleteProduct = async (id)=>{
     return response.data;
 };
 
+//Get  A Single Product
+const getProduct = async (id)=>{
+    const response = await axios.get(API_URL + id);
+    return response.data;
+};
 const productService = {
     createProduct,
     getProducts,
-    deleteProduct
+    deleteProduct,
+    getProduct,
 }
 
 export default productService;
