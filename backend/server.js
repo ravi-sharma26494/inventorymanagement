@@ -29,7 +29,7 @@ app.use("/api/contactus", contactRoute);
 
 //Routes
 app.get('/', (req,res)=>{
-    res.send('Helloddsff')
+    res.send('Hello the site is live')
 })
 
 
