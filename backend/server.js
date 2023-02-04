@@ -39,13 +39,13 @@ app.use(errorHandler);
 
 //Connection to database and start server
 const PORT = process.env.PORT || 5000;
-const dbconnection = async()=>{
+const dbconnection = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URI);
+        await mongoose.connect(process.env.MONGO_URI)
         console.log("DB Connection Suscessfull");
     } catch (err) {
         console.log(err);
     }
-};
+}
 dbconnection();    
 app.listen(PORT, ()=> console.log(`Server is running at: ${PORT}`))
