@@ -4,14 +4,16 @@ const sendEmail = async(subject, message, send_to, sent_from, reply_to) => {
     //create Email Transporter
     const transporter = nodemailer.createTransport({
         host: process.env.EMAIL_HOST,
-        port: 465,
-        secureConnection:true,
+        service:"outlook",
+        secureConnection:false,
+        port: 587,
+        // secureConnection:true,
         auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS,
         },
         tls: {
-            rejectUnauthorized: false
+            ciphers: "SSLv3"
         }
     });
 
