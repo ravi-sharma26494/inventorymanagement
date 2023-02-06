@@ -32,7 +32,7 @@ export const createProduct = createAsyncThunk(
     }
 );
 
-
+//Get all products
 export const getProducts = createAsyncThunk(
     "products/getAll",
     async(_, thunkAPI)=>{
@@ -71,6 +71,21 @@ export const getProduct = createAsyncThunk(
   async (id, thunkAPI)=>{
     try {
       return await productService.getProduct(id);
+    } catch (error) {
+      const message = (
+        error.response && error.response.data && error.response.data.message
+      ) || error.message || error.toString();
+      console.log(message);
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+// Update a  product
+export const updateProduct = createAsyncThunk(
+  'products/updateProduct',
+  async ({ id ,formData}, thunkAPI)=>{
+    try {
+      return await productService.updateProduct(id, formData);
     } catch (error) {
       const message = (
         error.response && error.response.data && error.response.data.message
@@ -191,6 +206,21 @@ const productSlice = createSlice({
         state.message = action.payload;
         toast.error(action.payload);
       })
+      .addCase(updateProduct.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateProduct.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        toast.success("Product updated successfully");
+      })
+      .addCase(updateProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        toast.error(action.payload);
+      });
   }
 });
 
