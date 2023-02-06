@@ -1,15 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Card from '../../components/card/Card';
 import Loader from '../../components/loader/Loader';
 import { selectUser } from '../../redux/features/auth/authSlice';
 import "./Profile.scss";
+import { toast } from "react-toastify";
+import { updateUser } from '../../services/authService';
 
 
 const EditProfile = () => {
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const user = useSelector(selectUser);
-    
+    const { email } = user;
+    useEffect(() => {
+        if(!email){
+            navigate("/profile");
+        }
+    }, [email, navigate]);
     
     const initialState = {
         name: user?.name,
@@ -29,8 +38,50 @@ const EditProfile = () => {
     const handleImageChange = (e) => {
         setProfileImage(e.target.files[0]);
       };
-    const saveProfile = (e)=>{
+    const saveProfile = async (e)=>{
         e.preventDefault();
+        setIsLoading(true);
+        try {
+            // Handle image upload; 
+            let imageURL;
+            if(
+                profileImage &&
+                (
+                    profileImage.type === "image/jpeg"||
+                    profileImage.type === "image/jpg"||
+                    profileImage.type === "image/png"
+                )
+            ){
+                const image = new FormData();
+                image.append("file", profileImage);
+                image.append("cloud_name","ravisharma");
+                image.append("upload_preset","reinvent.images");
+
+                const response = await fetch(
+                    "https://api.cloudinary.com/v1_1/ravisharma/image/upload",
+                    { method: "post", body: image }
+                  );
+                const imgData = await response.json();
+                imageURL = imgData.url.toString();
+                }
+                // Save Profile
+        const formData = {
+            name: profile.name,
+            phone: profile.phone,
+            bio: profile.bio,
+            photo: profileImage ? imageURL : profile.photo,
+          };
+        const data = await updateUser(formData);
+        console.log(data);
+        toast.success("User updated");
+        navigate("/profile");
+        setIsLoading(false);
+            
+        } catch (error) {
+            console.log(error);
+            setIsLoading(false);
+            toast.error(error.message);    
+        }
     }
 
   return (
