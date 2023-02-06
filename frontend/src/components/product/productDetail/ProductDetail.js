@@ -7,11 +7,11 @@ import { getProduct } from "../../../redux/features/product/productSlice";
 import "./ProductDetail.scss";
 import Card from '../../card/Card';
 import { SpinnerImg } from "../../loader/Loader";
-import DOMPurify from "dompurify";
+import DOMPurify from 'dompurify';
 
 
 const ProductDetail = () => {
-  useRedirectLoggedOutUser("/");
+  useRedirectLoggedOutUser("/login");
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const { id } = useParams();
