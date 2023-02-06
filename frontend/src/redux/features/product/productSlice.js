@@ -227,6 +227,7 @@ const productSlice = createSlice({
 export const {CALC_STORE_VALUE, CALC_OUTOFSTOCK, CALC_CATEGORY} = productSlice.actions
 
 export const selectIsloading = (state)=>state.product.isLoading; // exporting the isLoading state
+export const selectProduct = (state)=>state.product.product; 
 export const selectTotalStoreValue = (state)=>state.product.totalStoreValue; 
 export const selectOutOfStock = (state)=>state.product.outOfStock; 
 export const selectCategory = (state)=>state.product.category; 

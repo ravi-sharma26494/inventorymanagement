@@ -121,7 +121,9 @@ const ProductList = ({ products, isLoading }) => {
                                                     </Link>
                                                 </span>
                                                 <span>
+                                                <Link to={`/edit-product/${_id}`}>
                                                     <FaEdit size={25} color={"green"}/>
+                                                    </Link>
                                                 </span>
                                                 <span>
                                                     <FaTrashAlt size={25} color={"red"} onClick={() => confirmDelete(_id)} />
